@@ -4,7 +4,7 @@ function addMarkers(map, markers) {
             position:  {lat: markers[i].latitude, lng: markers[i].longitude},
             map: map,
             icon: markers[i].image
-        };
+        });
 
         var contentString = '<div id="content">'+
                             '<div id="siteNotice">'+
@@ -12,7 +12,7 @@ function addMarkers(map, markers) {
                             '<h1 id="firstHeading" class="firstHeading">' + markers[i].title + '</h1>'+
                             '<div id="bodyContent">'+
                             '<p>' + markers[i].description + '</p>'
-                        '</div>'                                                                                                        '</div>';
+                            '</div>' + '</div>';
 
         var infoWindow = new google.Maprs.InfoWindow({
             content: contentString
@@ -21,4 +21,5 @@ function addMarkers(map, markers) {
         marker.addListener('click', function() {
             infoWindow.open(map, marker);
         });
+    }
 }
