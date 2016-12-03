@@ -20,19 +20,17 @@
   </head>
   <body>
     <div id="map"></div>
+    <script src="jquery-3.1.1.min.js"></script>
     <script>
+      var base_url = 'https://seeclickfix.com/api/v2/issues';
 
-      // This example adds a marker to indicate the position of Bondi Beach in Sydney,
-      // Australia.
-      function initMap() {
+      function initMap(issues) {
+        console.log(issues);
+
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
           center: {lat: -33, lng: 151}
         });
-		
-		function addMarker(longitude, latitude) {
-			
-		}
 
         var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
         var beachMarker = new google.maps.Marker({
@@ -41,9 +39,34 @@
           icon: image
         });
       }
+
+      function getIssues() {
+          var issues;
+
+          // Using YQL and JSONP
+          $.ajax({
+              url: base_url,
+       
+              // The name of the callback parameter, as specified by the YQL service
+              jsonp: 'callback',
+           
+              // Tell jQuery we're expecting JSONP
+              dataType: 'jsonp',
+           
+              // Tell YQL what we want and that we want JSON
+              data: {
+                  place_url: 'jersey-city'
+              },
+           
+              // Work with the response
+              success: function( response ) {
+                  initMap(response.issues);
+              }
+          });
+      }
+
+      getIssues();
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?callback=initMap">
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
   </body>
 </html>
