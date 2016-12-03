@@ -1,5 +1,5 @@
 function addMarkers(map, markers) {
-    for(var i=0; i<markers.length; ++i) {
+for(var i=0; i<markers.length; ++i) {
         var marker = new google.maps.Marker({
             position:  {lat: markers[i].latitude, lng: markers[i].longitude},
             map: map,
@@ -14,7 +14,7 @@ function addMarkers(map, markers) {
                             '<p>' + markers[i].description + '</p>'
                             '</div>' + '</div>';
 
-        var infoWindow = new google.Maprs.InfoWindow({
+        var infoWindow = new google.maps.InfoWindow({
             content: contentString
         });
 
