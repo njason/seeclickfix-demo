@@ -29,14 +29,38 @@
 
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
-          center: {lat: -33, lng: 151}
+          center: {lat: issues[0].lat, lng: issues[0].lng}
         });
 
-        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-        var beachMarker = new google.maps.Marker({
-          position: {lat: -33.890, lng: 151.274},
-          map: map,
-          icon: image
+        $.each(issues, function(index, issue) {
+
+        var contentString = '<div id="content">'+
+                            '<div id="siteNotice">'+
+                            '</div>'+
+                            '<h1 id="firstHeading" class="firstHeading">' + issue.summary + '</h1>'+
+                            '<div id="bodyContent">'+
+                            '<p>' + issue.description + '</p>' +
+                            '<p><img src="' + issue.media.image_full + '"></p>'
+                        '</div>'   +                                                                                                     '</div>';
+
+                        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+
+          var marker = new google.maps.Marker({
+            position: {lat: issue.lat, lng: issue.lng},
+            map: map,
+            icon: image,
+            content: contentString
+          });
+
+
+          var infoWindow = new google.maps.InfoWindow({
+              content: contentString
+          });
+
+          marker.addListener('click', function() {
+              infoWindow.open(map, marker);
+          });
         });
       }
 
@@ -67,6 +91,6 @@
 
       getIssues();
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js"></script>
   </body>
 </html>
