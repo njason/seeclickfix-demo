@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>JC Hack</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="GoogleMarkerHack.js"></script>
+    <script>
+    function initMap() {
+      var base_url = 'https://seeclickfix.com/api/v2/issues';
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: {lat: 40.87, lng: -74.6}
+      }); 
+    
+      function addIssuesToMap(issues) {
+        console.log(issues);
+        
+        var markers = [];
+
+        var sampleMarker = {
+            image: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            longitude: -74.6,
+            latitude: 40.87,
+            title: 'title',
+            description: 'desc',
+            map: map
+        }
+        
+        markers.push(sampleMarker);
+
+        addMarkers(map, markers);
+      }
+
+      function getIssues() {
+          var issues;
+
+          // Using YQL and JSONP
+          $.ajax({
+              url: base_url,
+       
+              // The name of the callback parameter, as specified by the YQL service
+              jsonp: 'callback',
+           
+              // Tell jQuery we're expecting JSONP
+              dataType: 'jsonp',
+           
+              // Tell YQL what we want and that we want JSON
+              data: {
+                  place_url: 'jersey-city'
+              },
+           
+              // Work with the response
+              success: function( response ) {
+                  addIssuesToMap(response.issues);
+              }
+          });
+      }
+
+      getIssues();
+    }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+  </body>
+</html>
